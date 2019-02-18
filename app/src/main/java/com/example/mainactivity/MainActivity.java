@@ -7,34 +7,116 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 public class MainActivity extends AppCompatActivity {
 
     private int row;
     private int col;
     private String symbol;
     private TextView textV;
-
-
-
     Game game;
+
+    //Initialize the buttons
+    private Button button1;
+    private Button button2;
+    private Button button3;
+    private Button button4;
+    private Button button5;
+    private Button button6;
+    private Button button7;
+    private Button button8;
+    private Button button9;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        game = new Game();
+
+        button1 = findViewById(R.id.button1);
+        button2 = findViewById(R.id.button2);
+        button3 = findViewById(R.id.button3);
+        button4 = findViewById(R.id.button4);
+        button5 = findViewById(R.id.button5);
+        button6 = findViewById(R.id.button6);
+        button7 = findViewById(R.id.button7);
+        button8 = findViewById(R.id.button8);
+        button9 = findViewById(R.id.button9);
+        textV = findViewById(R.id.textView);
+
+
+
+
+        if (savedInstanceState == null ) {
+            game = new Game();
+        }else{
+            game = (Game)savedInstanceState.getSerializable("game");
+
+            String text1 = savedInstanceState.getString("button1Text");
+            String text2 = savedInstanceState.getString("button2Text");
+            String text3 = savedInstanceState.getString("button3Text");
+            String text4 = savedInstanceState.getString("button4Text");
+            String text5 = savedInstanceState.getString("button5Text");
+            String text6 = savedInstanceState.getString("button6Text");
+            String text7 = savedInstanceState.getString("button7Text");
+            String text8 = savedInstanceState.getString("button8Text");
+            String text9 = savedInstanceState.getString("button9Text");
+            String textG = savedInstanceState.getString("textG");
+            button1.setText(text1);
+            button2.setText(text2);
+            button3.setText(text3);
+            button4.setText(text4);
+            button5.setText(text5);
+            button6.setText(text6);
+            button7.setText(text7);
+            button8.setText(text8);
+            button9.setText(text9);
+            textV.setText(textG);
+
+        }
     }
 
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState); // always call super
+
+
+        outState.putSerializable("game", game);
+
+        // check the texts
+        String button1Text = String.valueOf(button1.getText());
+        String button2Text = String.valueOf(button2.getText());
+        String button3Text = String.valueOf(button3.getText());
+        String button4Text = String.valueOf(button4.getText());
+        String button5Text = String.valueOf(button5.getText());
+        String button6Text = String.valueOf(button6.getText());
+        String button7Text = String.valueOf(button7.getText());
+        String button8Text = String.valueOf(button8.getText());
+        String button9Text = String.valueOf(button9.getText());
+        String textG = String.valueOf(textV.getText());
+
+
+
+        // put texts into the out state
+        outState.putString("button1Text", button1Text );
+        outState.putString("button2Text", button2Text );
+        outState.putString("button3Text", button3Text );
+        outState.putString("button4Text", button4Text );
+        outState.putString("button5Text", button5Text );
+        outState.putString("button6Text", button6Text );
+        outState.putString("button7Text", button7Text );
+        outState.putString("button8Text", button8Text );
+        outState.putString("button9Text", button9Text );
+        outState.putString("textG", textG);
+
+    }
+
+
     public void tileClicked(View view) {
-        Button button1 = findViewById(R.id.button1);
-        Button button2 = findViewById(R.id.button2);
-        Button button3 = findViewById(R.id.button3);
-        Button button4 = findViewById(R.id.button4);
-        Button button5 = findViewById(R.id.button5);
-        Button button6 = findViewById(R.id.button6);
-        Button button7 = findViewById(R.id.button7);
-        Button button8 = findViewById(R.id.button8);
-        Button button9 = findViewById(R.id.button9);
 
         // This way more is know about the view:
         Button button = (Button) view;

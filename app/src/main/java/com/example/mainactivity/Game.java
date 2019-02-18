@@ -2,7 +2,9 @@ package com.example.mainactivity;
 
 import android.util.Log;
 
-public class Game {
+import java.io.Serializable;
+
+public class Game implements Serializable {
 
     final private int BOARD_SIZE = 3;
     private TileState[][] board;
@@ -71,6 +73,24 @@ public class Game {
                 return GameState.PLAYER_ONE;
         }
         else if ( (board[0][2] != TileState.BLANK) && (board[0][2] == board[1][1]) && (board[0][2] == board[2][0])) {
+            if (playerOneTurn)
+                return GameState.PLAYER_TWO;
+            else
+                return GameState.PLAYER_ONE;
+        }
+        else if ((board[0][0] != TileState.BLANK) && (board[0][0] == board[1][0]) && (board[0][0] == board[2][0])) {
+                if (playerOneTurn)
+                    return GameState.PLAYER_TWO;
+                else
+                    return GameState.PLAYER_ONE;
+        }
+        else if ((board[0][1] != TileState.BLANK) && (board[0][1] == board[1][1]) && (board[0][1] == board[2][1])) {
+            if (playerOneTurn)
+                return GameState.PLAYER_TWO;
+            else
+                return GameState.PLAYER_ONE;
+        }
+        else if ((board[0][2] != TileState.BLANK) && (board[0][2] == board[1][2]) && (board[0][2] == board[2][2])) {
             if (playerOneTurn)
                 return GameState.PLAYER_TWO;
             else
