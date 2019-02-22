@@ -10,14 +10,12 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
-
+    //initialize the variables
     private int row;
     private int col;
     private String symbol;
     private TextView textV;
     Game game;
-
-    //Initialize the buttons
     private Button button1;
     private Button button2;
     private Button button3;
@@ -28,8 +26,9 @@ public class MainActivity extends AppCompatActivity {
     private Button button8;
     private Button button9;
 
-
-
+    /* Check if there is an ongoing game saved in the Bundle and create that on the screen,
+    otherwise start a new game.
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,14 +45,10 @@ public class MainActivity extends AppCompatActivity {
         button9 = findViewById(R.id.button9);
         textV = findViewById(R.id.textView);
 
-
-
-
         if (savedInstanceState == null ) {
             game = new Game();
         }else{
             game = (Game)savedInstanceState.getSerializable("game");
-
             String text1 = savedInstanceState.getString("button1Text");
             String text2 = savedInstanceState.getString("button2Text");
             String text3 = savedInstanceState.getString("button3Text");
@@ -74,19 +69,14 @@ public class MainActivity extends AppCompatActivity {
             button8.setText(text8);
             button9.setText(text9);
             textV.setText(textG);
-
         }
     }
 
-
-
+    // save the game in a bundle before the screen changes
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState); // always call super
-
-
         outState.putSerializable("game", game);
-
         // check the texts
         String button1Text = String.valueOf(button1.getText());
         String button2Text = String.valueOf(button2.getText());
@@ -98,9 +88,6 @@ public class MainActivity extends AppCompatActivity {
         String button8Text = String.valueOf(button8.getText());
         String button9Text = String.valueOf(button9.getText());
         String textG = String.valueOf(textV.getText());
-
-
-
         // put texts into the out state
         outState.putString("button1Text", button1Text );
         outState.putString("button2Text", button2Text );
@@ -112,14 +99,13 @@ public class MainActivity extends AppCompatActivity {
         outState.putString("button8Text", button8Text );
         outState.putString("button9Text", button9Text );
         outState.putString("textG", textG);
-
     }
 
-
+    //tileClicked handels the process when a tile is clicked on the screen
     public void tileClicked(View view) {
-
-        // This way more is know about the view:
+        // this way more is know about what is clicked (the view)
         Button button = (Button) view;
+        // assign coordinates to the buttons
         if (button.getId()== R.id.button1) {
             row = 0;
             col = 0;
@@ -148,13 +134,10 @@ public class MainActivity extends AppCompatActivity {
             row = 2;
             col = 2;
         }
-
-
+        // check the state of the tile clicked
         TileState state = game.choose(row, col);
-        Log.d("errorcheck", String.valueOf(state));
         textV = findViewById(R.id.textView);
-
-
+        // switch case according to the symbol
         switch(state) {
             case CROSS:
                 symbol ="X";
@@ -166,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 //
                 break;
         }
-        Log.d("errorcheck", String.valueOf(state));
+        // set the textfield and tile according to the player's turn
         if (state == TileState.CROSS) {
             button.setText(symbol);
             textV.setText("Player Two's Turn");
@@ -174,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
             button.setText(symbol);
             textV.setText("Player One's Turn");
         }
-
+        // disable further entries after the game is won
         GameState GameStat = game.won();
         if (GameStat == GameState.PLAYER_ONE){
             textV.setText("Player One Won!!");
@@ -198,18 +181,13 @@ public class MainActivity extends AppCompatActivity {
             button7.setEnabled(false);
             button8.setEnabled(false);
             button9.setEnabled(false);
-
         } else if (GameStat == GameStat.DRAW) {
             textV.setText("It's a draw");
         }
-
-
-
     }
-
+    // when a new game is started the board must be reset
     public void resetClicked(View view) {
         game = new Game();
-
         Button button1 = findViewById(R.id.button1);
         button1.setText(" ");
         Button button2 = findViewById(R.id.button2);
